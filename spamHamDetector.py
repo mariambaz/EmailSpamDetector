@@ -1,20 +1,15 @@
 import numpy as np
 import pandas as pd
 
-##MAIN##
-if __name__ == "__main__":
-  #Reading data from
-  dataFrame = pd.read_csv (r'./spam_ham_dataset.csv')
-
-  #Preprocessing
-  f = open('english-stopwords.txt','r')
-  stopWords = [word.strip() for word in f.readlines()]
-  f.close()
-  punc = '''!()-[]\{\};:'"\,<>./?@=#$%^&*_~'''
+def preProcessing(listOfContent):
+  file = open('english-stopwords.txt','r')
+  stopWords = [word.strip() for word in file.readlines()]
+  file.close()
+  punctuation = '''!()-[]\{\};:'"\,<>./?@=#$%^&*_~1234567890'''
   preprocessed = []
   for b in dataFrame['Body']:
     for char in b:
-      if (char in punc):
+      if (char in punctuation):
         b = b.replace(char, "")
     puncRemoved = ""
     for word in b.split():
@@ -23,5 +18,11 @@ if __name__ == "__main__":
       puncRemoved += word + " "
     puncRemoved = puncRemoved.lower()
     preprocessed.append(puncRemoved)
-  dataFrame['Body'] = preprocessed
+  return preprocessed
+##MAIN##
+if __name__ == "__main__":
+  #Reading data from
+  dataFrame = pd.read_csv (r'./spam_ham_dataset.csv')
+  #Preprocessing
+  dataFrame['Body'] = preProcessing(dataFrame['Body'])
   print(dataFrame['Body'])
