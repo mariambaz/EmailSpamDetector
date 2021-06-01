@@ -1,11 +1,13 @@
 import numpy as np
 import pandas as pd
+from nltk.stem import PorterStemmer
 
 def preProcessing(listOfContent):
+  punctuation = '''!()-[]\{\};:'"\,<>./?@=#$%^&*_~1234567890'''
   file = open('english-stopwords.txt','r')
   stopWords = [word.strip() for word in file.readlines()]
   file.close()
-  punctuation = '''!()-[]\{\};:'"\,<>./?@=#$%^&*_~1234567890'''
+  porter = PorterStemmer()
   preprocessed = []
   for b in dataFrame['Body']:
     for char in b:
@@ -15,7 +17,7 @@ def preProcessing(listOfContent):
     for word in b.split():
       if (word in stopWords):
         continue
-      puncRemoved += word + " "
+      puncRemoved += porter.stem(word) + " "
     puncRemoved = puncRemoved.lower()
     preprocessed.append(puncRemoved)
   return preprocessed
