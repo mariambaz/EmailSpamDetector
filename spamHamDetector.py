@@ -21,6 +21,7 @@ if __name__ == "__main__":
       if (word in stopWords):
         continue
       puncRemoved += word + " "
+    puncRemoved = puncRemoved.lower()
     preprocessed.append(puncRemoved)
   dataFrame['Body'] = preprocessed
   print(dataFrame['Body'])
